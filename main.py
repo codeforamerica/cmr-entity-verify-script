@@ -5,16 +5,16 @@ import sys
 file_for_positives = sys.argv[1]
 file_for_results = sys.argv[2]
 
-expectedMatches = pd.read_csv(file_for_positives, header=0)
+expected_matches = pd.read_csv(file_for_positives, header=0)
 results = pd.read_csv(file_for_results, header=0)
 
 
-def verify_positives(expectedMatches, results):
+def verify_positives(expected_matches, results):
     """
-    Verify that the positive tests match the expected results.
+    Verify that the expected matches match the expected results.
 
     Parameters:
-        positive_tests (pandas.DataFrame): A DataFrame containing the positive tests.
+        expected_matches (pandas.DataFrame): A DataFrame containing the expected matches.
         results (pandas.DataFrame): A DataFrame containing the test results.
 
     Returns:
@@ -29,7 +29,7 @@ def verify_positives(expectedMatches, results):
     # Create a dictionary mapping IDs to rows in the results dataframe
     results_by_id = {result["party_id"]: result for _, result in results.iterrows()}
     # Iterate over the positive tests
-    for _, positive in expectedMatches.iterrows():
+    for _, positive in expected_matches.iterrows():
         # Look up the rows for the IDs in the positive test
         positive_a = results_by_id.get(positive["id_a"])
         positive_b = results_by_id.get(positive["id_b"])
@@ -58,4 +58,4 @@ def verify_positives(expectedMatches, results):
     return num_successful_matches, num_failed_matches, error_array
 
 
-verify_positives(expectedMatches, results)
+verify_positives(expected_matches, results)
