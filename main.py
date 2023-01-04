@@ -1,54 +1,61 @@
 import pandas as pd
 import sys
 
+# Get the file names for the positive tests and results from the command line arguments
 file_for_positives = sys.argv[1]
 file_for_results = sys.argv[2]
 
-positive_tests = pd.read_csv(file_for_positives, header=0)
+expectedMatches = pd.read_csv(file_for_positives, header=0)
 results = pd.read_csv(file_for_results, header=0)
 
 
-def verify_positives(positive_tests, results):
+def verify_positives(expectedMatches, results):
+    """
+    Verify that the positive tests match the expected results.
+
+    Parameters:
+        positive_tests (pandas.DataFrame): A DataFrame containing the positive tests.
+        results (pandas.DataFrame): A DataFrame containing the test results.
+
+    Returns:
+        tuple: A tuple containing the number of successful matches, the number of failed
+            matches, and a list of error messages.
+    """
+
+    # Initialize variables to store the results
     error_array = []
-    positive_matches = 0
-    negative_matches = 0
+    num_successful_matches = 0
+    num_failed_matches = 0
+    # Create a dictionary mapping IDs to rows in the results dataframe
     results_by_id = {result["party_id"]: result for _, result in results.iterrows()}
-
-    for _, positive in positive_tests.iterrows():
+    # Iterate over the positive tests
+    for _, positive in expectedMatches.iterrows():
+        # Look up the rows for the IDs in the positive test
         positive_a = results_by_id.get(positive["id_a"])
-        if positive_a is None:  # or positive_b is
-            error_array.append(
-                # f"{positive['id_a']} is in the positive tests but not in the results."
-                f"{positive['test_id']}, criteria: {positive['criteria']}"
-            )
-            negative_matches += 1
-            continue
         positive_b = results_by_id.get(positive["id_b"])
-        if positive_b is None:
+        # If either ID is not present in the results, add an error message to the error array
+        if positive_a is None or positive_b is None:
             error_array.append(
-                f"{positive['test_id']}, criteria: {positive['criteria']}"
-                # f"{positive["test_id"]}" #f"criteria: {positive["criteria"]}"
+                f"Test {positive['test_id']} failed criteria: {positive['criteria']}"
             )
-            negative_matches += 1
+            num_failed_matches += 1
             continue
+        # If the person IDs for the two IDs match, increment the positive matches counter
         if positive_a["person_id"] == positive_b["person_id"]:
-            positive_matches += 1
-
+            num_successful_matches += 1
+        # Otherwise, add an error message to the error array and increment the negative matches counter
         else:
             error_array.append(
-                # positive["test_id"]
-                f"{positive['test_id']}, criteria: {positive['criteria']}"
+                f"Test {positive['test_id']} failed criteria: {positive['criteria']}"
             )
-            #     error_array.append(
-            #         f"For positive test id {positive['test_id']} the person id associated with the two ids is not the same."
-            #     )
-            negative_matches += 1
+
+            num_failed_matches += 1
 
     print(
-        f"cases where the id is in the positive tests but not in the results: {error_array}"
+        f"cases where the id is in the expected matches but not in the results: {error_array}"
     )
 
-    return positive_matches, negative_matches, error_array
+    return num_successful_matches, num_failed_matches, error_array
 
 
-verify_positives(positive_tests, results)
+verify_positives(expectedMatches, results)
