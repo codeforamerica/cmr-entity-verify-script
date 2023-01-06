@@ -1,4 +1,5 @@
 *.nix
+.vscode/
 
 !positive.csv
 !results.csv
