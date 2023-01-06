@@ -1,6 +1,6 @@
 import pandas as pd
 
-from main import verify_positives
+from verification_functions import verify_positives
 
 
 def test_verify_positives():
