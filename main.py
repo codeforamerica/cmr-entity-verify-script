@@ -14,12 +14,12 @@ def verify_positives(expected_matches, results):
     Verify that the expected matches match the expected results.
 
     Parameters:
-        expected_matches (pandas.DataFrame): A DataFrame containing the expected matches.
-        results (pandas.DataFrame): A DataFrame containing the test results.
+      expected_matches (pandas.DataFrame): A DataFrame containing the expected matches.
+      results (pandas.DataFrame): A DataFrame containing the test results.
 
     Returns:
-        tuple: A tuple containing the number of successful matches, the number of failed
-            matches, and a list of error messages.
+      tuple: A tuple containing the number of successful matches, the number of failed
+          matches, and a list of error messages.
     """
 
     # Initialize variables to store the results
@@ -35,9 +35,7 @@ def verify_positives(expected_matches, results):
         positive_b = results_by_id.get(positive["id_b"])
         # If either ID is not present in the results, add an error message to the error array
         if positive_a is None or positive_b is None:
-            error_array.append(
-                f"Test {positive['test_id']} failed criteria: {positive['criteria']}"
-            )
+            error_array.append(f"Test {positive['test_id']}: {positive['criteria']}")
             num_failed_matches += 1
             continue
         # If the person IDs for the two IDs match, increment the positive matches counter
@@ -45,17 +43,18 @@ def verify_positives(expected_matches, results):
             num_successful_matches += 1
         # Otherwise, add an error message to the error array and increment the negative matches counter
         else:
-            error_array.append(
-                f"Test {positive['test_id']} failed criteria: {positive['criteria']}"
-            )
+            error_array.append(f"Test {positive['test_id']}: {positive['criteria']}")
 
             num_failed_matches += 1
 
-    print(
-        f"cases where the id is in the expected matches but not in the results: {error_array}"
-    )
+        print(f"Number of successful matches: {num_successful_matches}")
+        print(f"Number of failed matches: {num_failed_matches}")
+        if num_failed_matches > 0:
+            print("Failed match criteria:")
+            for error in error_array:
+                print(f"- {error}")
 
-    return num_successful_matches, num_failed_matches, error_array
+        return num_successful_matches, num_failed_matches, error_array
 
 
 verify_positives(expected_matches, results)
