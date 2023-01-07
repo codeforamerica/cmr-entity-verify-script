@@ -21,9 +21,9 @@ The expected matches file should be a CSV file with the following columns:
 <code>criteria</code>: a description of the criteria for the expected match
 The results file should be a CSV file with the following columns:
 
-party_id: the ID of the party
-person_id: the ID of the person associated with the party
-Output
+<p>party_id: the ID of the party</p>
+<p>person_id: the ID of the person associated with the party</p>
+<p>Output</p>
 The script will print the following output to the console:
 
 The number of successful matches
