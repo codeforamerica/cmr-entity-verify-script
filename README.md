@@ -3,7 +3,7 @@ This script is written to test our entity resolution script. This script verifie
 
 ## Requirements
 Python 3
-pandas
+<p>pandas</p>
 ## Usage
 To run the script, use the following command:
 
