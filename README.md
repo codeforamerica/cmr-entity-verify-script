@@ -1,19 +1,18 @@
- #verify_positives
-This script verifies that expected matches match the expected results. It takes two input CSV files, one containing the expected matches and another containing the test results. It returns the number of successful matches, the number of failed matches, and a list of error messages.
+ # verify_positives
+This script is written to test our entity resolution script. This script verifies that expected matches match the expected results. It takes two input CSV files, one containing the expected matches and another containing the test results. It returns the number of successful matches, the number of failed matches, and a list of error messages.
 
-##Requirements
+## Requirements
 Python 3
 pandas
-##Usage
+## Usage
 To run the script, use the following command:
 
-
-<code> python main.py positives.csv results.csv </code>
-or
+<pre>
 <code> python3 main.py positives.csv results.csv </code>
+</pre>
 The script will print the number of successful matches, the number of failed matches, and a list of error messages.
 
-##Input Files
+## Input Files
 The expected matches file should be a CSV file with the following columns:
 
 <code>test_id</code>: a unique identifier for the expected match
@@ -31,14 +30,18 @@ The number of successful matches
 The number of failed matches
 A list of error messages for failed matches, including the test ID and criteria for each failed match
 
-##Example
+## Pytest Example
 
-<code>python verify_positives.py expected_matches.csv results.csv</code>
+<code>pytest</code>
 The output might look like this:
-
-<code>
-Number of successful matches: 3
+## Usage
+To run the script, use the following command:
+<code>pytest</code>
+<pre><code>
+Number of successful matches: 1
 Number of failed matches: 2
 Failed matches:
-- Test 1 failed criteria: criteria1
+- test_2, criteria: address
+- test_3, criteria: phone
 </code>
+</pre>
