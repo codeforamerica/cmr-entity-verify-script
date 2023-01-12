@@ -11,6 +11,17 @@ def verify_positives(positive_tests, results):
 
     # Iterate over the rows in the positive tests dataframe
     for _, positive in positive_tests.iterrows():
+        # Check if id_a and id_b exist in the positive_tests dataframe
+        if "id_a" not in positive_tests.columns or "id_b" not in positive_tests.columns or "test_id" not in positive_tests.columns or "criteria" not in positive_tests.columns:
+            error_array.append(f"Missing column in positive_tests dataframe")
+            num_failed_matches += 1
+            continue
+        if "party_id" not in results.columns or "person_id" not in results.columns:
+            error_array.append(f"Missing column in results dataframe")
+            num_failed_matches += 1
+            continue
+        
+
         # Look up the results for the IDs in the positive test
         positive_a = results_by_id.get(positive["id_a"])
         positive_b = results_by_id.get(positive["id_b"])
